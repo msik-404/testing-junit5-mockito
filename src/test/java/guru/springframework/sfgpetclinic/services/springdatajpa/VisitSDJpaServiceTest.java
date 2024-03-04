@@ -13,7 +13,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class VisitSDJpaServiceTest {
@@ -29,7 +30,7 @@ class VisitSDJpaServiceTest {
 
         // given
         List<Visit> dummyData = List.of(new Visit(0L), new Visit(1L));
-        when(mockRepo.findAll()).thenReturn(dummyData);
+        given(mockRepo.findAll()).willReturn(dummyData);
 
         Visit nonPresentData = new Visit(2L);
 
@@ -37,7 +38,7 @@ class VisitSDJpaServiceTest {
         Set<Visit> output = service.findAll();
 
         // then
-        verify(mockRepo).findAll();
+        then(mockRepo).should().findAll();
 
         dummyData.forEach(visit -> assertTrue(output.contains(visit)));
 
@@ -51,25 +52,25 @@ class VisitSDJpaServiceTest {
         // given
         var id = 0L;
         var dummyData = new Visit(id);
-        when(mockRepo.findById(id)).thenReturn(Optional.of(dummyData));
+        given(mockRepo.findById(id)).willReturn(Optional.of(dummyData));
 
         // when
         Visit output = service.findById(id);
 
         // then
-        verify(mockRepo).findById(id);
+        then(mockRepo).should().findById(id);
         assertEquals(dummyData, output);
 
         // Null case
         // given
         var nonExistingId = 404L;
-        when(mockRepo.findById(nonExistingId)).thenReturn(Optional.empty());
+        given(mockRepo.findById(nonExistingId)).willReturn(Optional.empty());
 
         // when
         Visit nullOutput = service.findById(nonExistingId);
 
         // then
-        verify(mockRepo).findById(nonExistingId);
+        then(mockRepo).should().findById(nonExistingId);
         assertNull(nullOutput);
     }
 
@@ -80,13 +81,13 @@ class VisitSDJpaServiceTest {
         var id = 0L;
         var inputDummyData = new Visit();
         var outputDummyData = new Visit(id);
-        when(mockRepo.save(inputDummyData)).thenReturn(outputDummyData);
+        given(mockRepo.save(inputDummyData)).willReturn(outputDummyData);
 
         // when
         Visit output = service.save(inputDummyData);
 
         // then
-        verify(mockRepo).save(inputDummyData);
+        then(mockRepo).should().save(inputDummyData);
         assertEquals(outputDummyData, output);
     }
 
@@ -101,7 +102,7 @@ class VisitSDJpaServiceTest {
         service.delete(dummyData);
 
         // then
-        verify(mockRepo).delete(dummyData);
+        then(mockRepo).should().delete(dummyData);
     }
 
     @Test
@@ -114,6 +115,6 @@ class VisitSDJpaServiceTest {
         service.deleteById(id);
 
         // then
-        verify(mockRepo).deleteById(id);
+        then(mockRepo).should().deleteById(id);
     }
 }
