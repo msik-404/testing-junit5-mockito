@@ -51,9 +51,9 @@ class VisitSDJpaServiceTest {
         // given
         var id = 0L;
         var dummyData = new Visit(id);
-        when(mockRepo.findById(id)).thenReturn(Optional.of(dummyData));
 
         // when
+        when(mockRepo.findById(id)).thenReturn(Optional.of(dummyData));
         Visit output = service.findById(id);
 
         // then
@@ -63,9 +63,9 @@ class VisitSDJpaServiceTest {
         // Null case
         // given
         var nonExistingId = 404L;
-        when(mockRepo.findById(nonExistingId)).thenReturn(Optional.empty());
 
         // when
+        when(mockRepo.findById(nonExistingId)).thenReturn(Optional.empty());
         Visit nullOutput = service.findById(nonExistingId);
 
         // then
@@ -80,9 +80,9 @@ class VisitSDJpaServiceTest {
         var id = 0L;
         var inputDummyData = new Visit();
         var outputDummyData = new Visit(id);
-        when(mockRepo.save(inputDummyData)).thenReturn(outputDummyData);
 
         // when
+        when(mockRepo.save(inputDummyData)).thenReturn(outputDummyData);
         Visit output = service.save(inputDummyData);
 
         // then
