@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -42,7 +43,7 @@ class VisitSDJpaServiceTest {
 
         dummyData.forEach(visit -> assertTrue(output.contains(visit)));
 
-        assertFalse(output.contains(nonPresentData));
+        assertThat(output.contains(nonPresentData)).isFalse();
     }
 
     @Test
@@ -59,7 +60,7 @@ class VisitSDJpaServiceTest {
 
         // then
         then(mockRepo).should().findById(id);
-        assertEquals(dummyData, output);
+        assertThat(dummyData).isEqualTo(output);
 
         // Null case
         // given
@@ -71,7 +72,7 @@ class VisitSDJpaServiceTest {
 
         // then
         then(mockRepo).should().findById(nonExistingId);
-        assertNull(nullOutput);
+        assertThat(nullOutput).isNull();
     }
 
     @Test
@@ -88,7 +89,7 @@ class VisitSDJpaServiceTest {
 
         // then
         then(mockRepo).should().save(inputDummyData);
-        assertEquals(outputDummyData, output);
+        assertThat(outputDummyData).isEqualTo(output);
     }
 
     @Test
